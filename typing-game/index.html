@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Typing Sprint</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <header class="app__header">
+      <h1>Typing Sprint</h1>
+      <p class="app__tagline">Warm up your fingers and race the clock.</p>
+    </header>
+
+    <section class="card">
+      <div class="card__row">
+        <div class="stat">
+          <span class="stat__label">Time</span>
+          <span class="stat__value" id="time">00:30</span>
+        </div>
+        <div class="stat">
+          <span class="stat__label">Accuracy</span>
+          <span class="stat__value" id="accuracy">100%</span>
+        </div>
+        <div class="stat">
+          <span class="stat__label">Words/min</span>
+          <span class="stat__value" id="wpm">0</span>
+        </div>
+      </div>
+
+      <div class="prompt" id="prompt" aria-live="polite"></div>
+
+      <label class="input" for="typing-input">
+        <span class="input__label">Type the prompt below</span>
+        <textarea id="typing-input" class="input__field" rows="3" placeholder="Press Start to begin" disabled></textarea>
+      </label>
+
+      <div class="card__row card__actions">
+        <div class="toggles">
+          <label class="toggle">
+            <input type="checkbox" id="punctuation-toggle" checked />
+            <span>Include punctuation</span>
+          </label>
+          <label class="toggle">
+            <input type="checkbox" id="numbers-toggle" />
+            <span>Include numbers</span>
+          </label>
+        </div>
+        <button id="start-btn" class="button">Start</button>
+      </div>
+    </section>
+
+    <section class="card card--secondary">
+      <h2>How to play</h2>
+      <ol class="steps">
+        <li>Choose whether to include punctuation and numbers.</li>
+        <li>Hit <strong>Start</strong> to lock in a prompt and begin the 30 second timer.</li>
+        <li>Type as accurately and quickly as possible until the timer ends.</li>
+      </ol>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>
