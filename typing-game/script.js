@@ -3,6 +3,11 @@ const inputEl = document.getElementById("typing-input");
 const timeEl = document.getElementById("time");
 const accuracyEl = document.getElementById("accuracy");
 const wpmEl = document.getElementById("wpm");
+const charactersEl = document.getElementById("characters");
+const mistakesEl = document.getElementById("mistakes");
+const bestWpmEl = document.getElementById("best-wpm");
+const statusEl = document.getElementById("status");
+const promptLengthEl = document.getElementById("prompt-length");
 const startBtn = document.getElementById("start-btn");
 const punctuationToggle = document.getElementById("punctuation-toggle");
 const numbersToggle = document.getElementById("numbers-toggle");
@@ -11,6 +16,8 @@ const DURATION = 30;
 let timerId = null;
 let startTime = null;
 let currentPrompt = "";
+let bestWpm = 0;
+let gameState = "idle";
 
 const BASE_PHRASES = [
   "The quick brown fox jumps over the lazy dog.",
@@ -44,10 +51,14 @@ function startGame() {
   currentPrompt = buildPrompt(includePunctuation, includeNumbers);
   inputEl.value = "";
   inputEl.disabled = false;
+  punctuationToggle.disabled = true;
+  numbersToggle.disabled = true;
   inputEl.focus();
   startTime = performance.now();
   renderPrompt();
   resetMetrics();
+  updateStatus("running");
+  promptLengthEl.textContent = `Prompt length: ${currentPrompt.length} chars`;
   timeEl.textContent = formatTime(DURATION);
 
   timerId = setInterval(() => {
@@ -67,10 +78,13 @@ function finishGame() {
   clearInterval(timerId);
   timerId = null;
   inputEl.disabled = true;
+  punctuationToggle.disabled = false;
+  numbersToggle.disabled = false;
   inputEl.blur();
   timeEl.textContent = formatTime(0);
   renderPrompt();
   updateMetrics();
+  updateStatus("finished");
 }
 
 function buildPrompt(includePunctuation, includeNumbers) {
@@ -126,11 +140,20 @@ function updateMetrics() {
 
   accuracyEl.textContent = `${accuracy}%`;
   wpmEl.textContent = wpm.toString();
+  charactersEl.textContent = typed.length.toString();
+  mistakesEl.textContent = Math.max(0, typed.length - correctChars).toString();
+
+  if (!timerId && wpm > bestWpm) {
+    bestWpm = wpm;
+    bestWpmEl.textContent = bestWpm.toString();
+  }
 }
 
 function resetMetrics() {
   accuracyEl.textContent = "100%";
   wpmEl.textContent = "0";
+  charactersEl.textContent = "0";
+  mistakesEl.textContent = "0";
 }
 
 function getCorrectCharCount(typed, prompt) {
@@ -162,6 +185,18 @@ function escapeHtml(value) {
     .replace(/>/g, "&gt;")
     .replace(/\"/g, "&quot;")
     .replace(/'/g, "&#039;");
+}
+
+function updateStatus(state) {
+  gameState = state;
+
+  if (state === "running") {
+    statusEl.textContent = "Timer running – keep typing!";
+  } else if (state === "finished") {
+    statusEl.textContent = "Time's up. Press Restart to try again.";
+  } else {
+    statusEl.textContent = "Waiting to start";
+  }
 }
 
 renderPrompt();

@@ -52,6 +52,31 @@
     </section>
 
     <section class="card card--secondary">
+      <div class="card__row card__row--stacked">
+        <div>
+          <h2 class="card__title">Session status</h2>
+          <p class="muted" id="status">Waiting to start</p>
+        </div>
+        <div class="badge" id="prompt-length">Prompt length: 0 chars</div>
+      </div>
+
+      <div class="card__row stats-grid">
+        <div class="stat">
+          <span class="stat__label">Characters typed</span>
+          <span class="stat__value" id="characters">0</span>
+        </div>
+        <div class="stat">
+          <span class="stat__label">Mistakes</span>
+          <span class="stat__value" id="mistakes">0</span>
+        </div>
+        <div class="stat">
+          <span class="stat__label">Best words/min</span>
+          <span class="stat__value" id="best-wpm">0</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card card--secondary">
       <h2>How to play</h2>
       <ol class="steps">
         <li>Choose whether to include punctuation and numbers.</li>
